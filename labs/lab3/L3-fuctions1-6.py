@@ -1,5 +1,6 @@
 sentence = list(input().split())
-def reverse(a):
-    for i in reversed(a):
-        print(a[i])
-reverse(sentence)
+def rev(a):
+    res = a[::-1]
+    fin = ' '.join(map(str, res))
+    print(fin)
+rev(sentence)
