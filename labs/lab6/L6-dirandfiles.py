@@ -25,3 +25,11 @@ for letter in string.ascii_uppercase:
     with open(f"{letter}.txt", 'w'):
         pass
 #7
+with open('examplefile.txt', 'r') as r:
+    with open('examplefile_copy.txt', 'w') as w:
+        for line in r:
+            w.write(line)
+#8
+with open('example2.txt', 'w') as w:
+    if os.path.exists(path):
+        w.write('')
