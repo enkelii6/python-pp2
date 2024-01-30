@@ -10,7 +10,7 @@ min_img = pygame.image.load('imgs/MicrosoftTeams-image.png')
 rect = bg_image.get_rect(center=(415, 418))
 
 while not done:
-    screen.blit(bg_image, (0, 0))  # Blit background at (0, 0)
+    screen.blit(bg_image, (0, 0))
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             done = True
