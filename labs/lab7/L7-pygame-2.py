@@ -15,7 +15,7 @@ background_image = pygame.image.load("music/86c87d3748b1b8ee27db7c60e44ddae6.jpg
 background_rect = background_image.get_rect()
 
 while not done:
-    screen.blit(background_image, background_rect)  # Draw background first
+    screen.blit(background_image, background_rect)
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             done = True
