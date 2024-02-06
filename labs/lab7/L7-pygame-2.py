@@ -6,7 +6,8 @@ screen = pygame.display.set_mode((960, 600))
 done = False
 songs = ['music/Playboi Carti - H00DBYAIR (Official Music Video) (256  kbps).mp3',
          'music/BACKR00MS FT TRAVIS SCOTT SEXISDEATH INDIANA420BITCH (256  kbps).mp3',
-         'music/PLAYBOI CARTI - UR THE MOON (MUSIC VIDEO) (256  kbps).mp3']
+         'music/PLAYBOI CARTI - UR THE MOON (MUSIC VIDEO) (256  kbps).mp3',
+         'music/Yung_Lean_x_Bladee_-_Hennessy_and_Sailor_Moon_55724191.mp3']
 pygame.mixer.music.load(songs[0])
 pygame.mixer.music.play()
 i = 0
@@ -15,7 +16,14 @@ background_image = pygame.image.load("music/86c87d3748b1b8ee27db7c60e44ddae6.jpg
 background_rect = background_image.get_rect()
 
 while not done:
-    screen.blit(background_image, background_rect)
+    if i == 3:
+        background_image = pygame.image.load('music/d4e27433-f6a7-454a-a5c7-66dd5ad2baf9.jpg')
+        background_rect = background_image.get_rect()
+        screen.blit(background_image, background_rect)
+    else:
+        background_image = pygame.image.load("music/86c87d3748b1b8ee27db7c60e44ddae6.jpg")
+        background_rect = background_image.get_rect()
+        screen.blit(background_image, background_rect)
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             done = True

@@ -82,7 +82,6 @@ class Coin(pygame.sprite.Sprite):
         global coin2
         self.rect.move_ip(0, SPEED)
         if self.rect.top > SCREEN_HEIGHT:
-            coin2 += 1
             self.reset()
 
 
