@@ -38,3 +38,4 @@ insert_data_to_postgres(con, "PhoneBook", datacsv)
 con.commit()
 cur.close()
 con.close()
+# asd asd asd asd asd
