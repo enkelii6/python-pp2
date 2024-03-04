@@ -79,7 +79,7 @@ class Coin(pygame.sprite.Sprite):
     # constructor
     def __init__(self):
         super().__init__()
-        self.image = pygame.image.load('labs/lab8/free-icon-dollar-coin-9787486.png')
+        self.image = pygame.image.load("labs/lab9/free-icon-dollar-coin-9787486.png")
         self.rect = self.image.get_rect()
         self.rect.center = (random.randint(40, SCREEN_WIDTH - 40), 0)
 
@@ -87,17 +87,23 @@ class Coin(pygame.sprite.Sprite):
         self.rect.top = 0
         self.rect.center = (random.randint(40, SCREEN_WIDTH - 40), 0)
     def move(self):
-        global coin2
         self.rect.move_ip(0, SPEED)
         if self.rect.top > SCREEN_HEIGHT:
             self.reset()
 
-
+class BigCoin(pygame.sprite.Sprite):
+    def __init__(self):
+        super().__init__()
+        self.image = pygame.image.load('labs/lab9/free-icon-dollar-coin-9787486-fotor-2024030511740.png')
+        self.rect = self.image.get_rect()
+    def move(self):
+        self.rect.move_ip(0, SPEED)
 
 # Setting up Sprites
 P1 = Player()
 E1 = Enemy()
 C1 = Coin()
+B1 = BigCoin()
 
 # Creating Sprites Groups
 enemies = pygame.sprite.Group()
@@ -106,8 +112,11 @@ enemies.add(E1)
 coins = pygame.sprite.Group()
 coins.add(C1)
 
+big_coins = pygame.sprite.Group()
+big_coins.add(B1)
+
 all_sprites = pygame.sprite.Group()
-all_sprites.add(P1, E1, C1)
+all_sprites.add(P1, E1, C1, B1)
 # Adding a new User event
 INC_SPEED = pygame.USEREVENT + 1
 pygame.time.set_timer(INC_SPEED, 1000)
@@ -141,6 +150,18 @@ while True:
         all_sprites.add(new_coin)
         new_coin.rect.top = 0
         new_coin.rect.center = (random.randint(40, SCREEN_WIDTH - 40), 0)
+        if coin2 % 10 == 0:
+            SPEED += 0.5
+            new_coin = BigCoin()
+            big_coins.add(new_coin)
+            all_sprites.add(new_coin)
+            new_coin.rect.top = 0
+            new_coin.rect.center = (random.randint(40, SCREEN_WIDTH - 40), 0)
+    big_coins_collided = pygame.sprite.spritecollide(P1, big_coins, True)
+    for big_coin in big_coins_collided:
+        coin2 += 5
+        big_coin.kill()
+
 
     # To be run if collision occurs between Player and Enemy
     if pygame.sprite.spritecollideany(P1, enemies):
