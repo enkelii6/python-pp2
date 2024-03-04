@@ -4,9 +4,9 @@ from datetime import datetime
 pygame.init()
 screen = pygame.display.set_mode((829, 836))
 done = False
-bg_image = pygame.image.load('imgs/MicrosoftTeams-image (2).png')
-sec_img = pygame.image.load('imgs/MicrosoftTeams-image (1).png')
-min_img = pygame.image.load('imgs/MicrosoftTeams-image.png')
+bg_image = pygame.image.load('labs/lab7/imgs/MicrosoftTeams-image (2).png')
+sec_img = pygame.image.load('labs/lab7/imgs/MicrosoftTeams-image (1).png')
+min_img = pygame.image.load('labs/lab7/imgs/MicrosoftTeams-image.png')
 rect = bg_image.get_rect(center=(415, 418))
 
 while not done:
