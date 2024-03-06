@@ -1,91 +1,86 @@
 import pygame
 
+pygame.init() # Initialize pygame
 
-def main():
-    pygame.init()
-    screen = pygame.display.set_mode((640, 480))
-    clock = pygame.time.Clock()
+painting = []
 
-    radius = 15
-    x = 0
-    y = 0
-    mode = 'blue'
-    points = []
+timer = pygame.time.Clock() # We need it for future use with fps
 
-    while True:
+fps = 60 # Set Frames per second
 
-        pressed = pygame.key.get_pressed()
+activeColor = (0, 0, 0)
+activeShape = 0
 
-        alt_held = pressed[pygame.K_LALT] or pressed[pygame.K_RALT]
-        ctrl_held = pressed[pygame.K_LCTRL] or pressed[pygame.K_RCTRL]
+w = 800 # Set Window Size
+h = 600
 
-        for event in pygame.event.get():
+screen = pygame.display.set_mode([w, h]) # Set Screen
 
-            # determin if X was clicked, or Ctrl+W or Alt+F4 was used
-            if event.type == pygame.QUIT:
-                return
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_w and ctrl_held:
-                    return
-                if event.key == pygame.K_F4 and alt_held:
-                    return
-                if event.key == pygame.K_ESCAPE:
-                    return
+pygame.display.set_caption("Paint") # Set Window Title
 
-                # determine if a letter key was pressed
-                if event.key == pygame.K_r:
-                    mode = 'red'
-                elif event.key == pygame.K_g:
-                    mode = 'green'
-                elif event.key == pygame.K_b:
-                    mode = 'blue'
+def drawDisplay():
+    pygame.draw.rect(screen, 'gray', [0, 0, w, 100]) # Draw Display
+    pygame.draw.line(screen, 'black', [0, 100], [w, 100]) # Draw Line separator
+    rect = [pygame.draw.rect(screen, 'black', [10, 10, 80, 80]), 0]
+    pygame.draw.rect(screen, 'white', [20, 20, 60, 60])
+    circ = [pygame.draw.rect(screen, 'black', [100, 10, 80, 80]), 1]
+    pygame.draw.circle(screen, 'white', [140, 50], 30)
+    blue = [pygame.draw.rect(screen, (0, 0, 255), [w - 35, 10, 25, 25]), (0, 0, 255)] # Draw colors
+    red = [pygame.draw.rect(screen, (255, 0, 0), [w - 35, 35, 25, 25]), (255, 0, 0)] # Draw colors
+    green = [pygame.draw.rect(screen, (0, 255, 0), [w - 60, 10, 25, 25]), (0, 255, 0)] # Draw colors
+    yellow = [pygame.draw.rect(screen, (255, 255, 0), [w - 60, 35, 25, 25]), (255, 255, 0)] # Draw colors
+    black = [pygame.draw.rect(screen, (0, 0, 0), [w - 85, 10, 25, 25]), (0, 0, 0)] # Draw colors
+    purple = [pygame.draw.rect(screen, (255, 0, 255), [w - 85, 35, 25, 25]), (255, 0, 255)] # Draw colors
+    eraser = [pygame.draw.rect(screen, (255, 255, 255), [w - 150, 20, 25, 25]), (255, 255, 255)] # Draw Eraser
+    return [blue, red, green, yellow, black, purple, eraser], [rect, circ]
 
-            if event.type == pygame.MOUSEBUTTONDOWN:
-                if event.button == 1:  # left click grows radius
-                    radius = min(200, radius + 1)
-                elif event.button == 3:  # right click shrinks radius
-                    radius = max(1, radius - 1)
+def drawPaint(paints):
+    for paint in paints:
+        if paint[2] == 1:
+            pygame.draw.circle(screen, paint[0], paint[1], 15) # Draw Paint
+        elif paint[2] == 0:
+            pygame.draw.rect(screen, paint[0], [paint[1][0]-15, paint[1][1]-15, 30, 30]) # Draw Paint
+def draw():
+    global activeColor, activeShape, mouse
+    if mouse[1] > 100:
+        if activeShape == 0:
+            pygame.draw.rect(screen, activeColor, [mouse[0]-15, mouse[1]-15, 30, 30]) # Draw
+        if activeShape == 1:
+            pygame.draw.circle(screen, activeColor, mouse, 15)
 
-            if event.type == pygame.MOUSEMOTION:
-                # if mouse moved, add point to list
-                position = event.pos
-                points = points + [position]
-                points = points[-256:]
+run = True
+while run:
+    timer.tick(fps) # Set FPS
+    screen.fill('white') # Fill Screen
+    colors, shape = drawDisplay() # Draw Display
 
-        screen.fill((0, 0, 0))
+    mouse = pygame.mouse.get_pos() # Get Mouse Position
+    draw()
+    
+    click = pygame.mouse.get_pressed()[0] # Get Mouse Button Pressed
+    if click and mouse[1] > 100:
+        painting.append((activeColor, mouse, activeShape)) # Add Mouse Position to List
+    drawPaint(painting)
 
-        # draw all points
-        i = 0
-        while i < len(points) - 1:
-            drawLineBetween(screen, i, points[i], points[i + 1], radius, mode)
-            i += 1
+    for event in pygame.event.get(): # Set quit event
+        if event.type == pygame.QUIT:
+            run = False
 
-        pygame.display.flip()
+        if event.type == pygame.KEYDOWN: # Set quit event
+            if event.key == pygame.K_ESCAPE:
+                run = False
 
-        clock.tick(60)
+        if event.type == pygame.KEYDOWN: # Set quit event
+            if event.key == pygame.K_SPACE:
+                painting = []
 
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            for i in colors:
+                if i[0].collidepoint(event.pos):
+                    activeColor = i[1]
+            for i in shape:
+                if i[0].collidepoint(event.pos):
+                    activeShape = i[1]
+    
 
-def drawLineBetween(screen, index, start, end, width, color_mode):
-    c1 = max(0, min(255, 2 * index - 256))
-    c2 = max(0, min(255, 2 * index))
-
-    if color_mode == 'blue':
-        color = (c1, c1, c2)
-    elif color_mode == 'red':
-        color = (c2, c1, c1)
-    elif color_mode == 'green':
-        color = (c1, c2, c1)
-
-    dx = start[0] - end[0]
-    dy = start[1] - end[1]
-    iterations = max(abs(dx), abs(dy))
-
-    for i in range(iterations):
-        progress = 1.0 * i / iterations
-        aprogress = 1 - progress
-        x = int(aprogress * start[0] + progress * end[0])
-        y = int(aprogress * start[1] + progress * end[1])
-        pygame.draw.circle(screen, color, (x, y), width)
-
-
-main()
+    pygame.display.flip() # Update Screen

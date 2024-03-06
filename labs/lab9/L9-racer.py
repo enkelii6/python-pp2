@@ -151,7 +151,7 @@ while True:
         new_coin.rect.top = 0
         new_coin.rect.center = (random.randint(40, SCREEN_WIDTH - 40), 0)
         if coin2 % 10 == 0:
-            SPEED += 0.5
+            SPEED += 1
             new_coin = BigCoin()
             big_coins.add(new_coin)
             all_sprites.add(new_coin)
