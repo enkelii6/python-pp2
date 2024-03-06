@@ -116,7 +116,7 @@ big_coins = pygame.sprite.Group()
 big_coins.add(B1)
 
 all_sprites = pygame.sprite.Group()
-all_sprites.add(P1, E1, C1, B1)
+all_sprites.add(P1, C1, B1, E1)
 # Adding a new User event
 INC_SPEED = pygame.USEREVENT + 1
 pygame.time.set_timer(INC_SPEED, 1000)
@@ -135,11 +135,6 @@ while True:
 
     counter = font_small.render(str(coin2), True, BLACK)
     DISPLAYSURF.blit(counter, (380, 10))
-
-    # Moves and Re-draws all Sprites
-    for entity in all_sprites:
-        DISPLAYSURF.blit(entity.image, entity.rect)
-        entity.move()
 
     # Check for collision with coins
     collided_coins = pygame.sprite.spritecollide(P1, coins, True)
@@ -162,6 +157,10 @@ while True:
         coin2 += 5
         big_coin.kill()
 
+    # Moves and Re-draws all Sprites
+    for entity in all_sprites:
+        DISPLAYSURF.blit(entity.image, entity.rect)
+        entity.move()
 
     # To be run if collision occurs between Player and Enemy
     if pygame.sprite.spritecollideany(P1, enemies):
