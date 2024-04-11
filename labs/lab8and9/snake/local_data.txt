@@ -1,0 +1,1 @@
+{"score1": 6, "score2": 0, "mode": "normal", "player": "1", "food.x": 475, "food.y": 311}
