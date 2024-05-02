@@ -28,7 +28,7 @@ font = pygame.font.SysFont("Verdana", 60)
 font_small = pygame.font.SysFont("Verdana", 20)
 game_over = font.render("Game Over", True, BLACK)
 
-background = pygame.image.load("labs/lab8/AnimatedStreet.png")
+background = pygame.image.load("labs/lab8and9/racer/AnimatedStreet.png")
 
 # Create a white screen
 DISPLAYSURF = pygame.display.set_mode((400, 600))
@@ -36,7 +36,7 @@ DISPLAYSURF.fill(WHITE)
 pygame.display.set_caption("Game")
 
 # background sound
-pygame.mixer.music.load('labs/lab8/background.wav')
+pygame.mixer.music.load('labs/lab8and9/racer/background.wav')
 pygame.mixer.music.play(-1) # i use -1 to loop the music
 
 # Create a sprite group Enemy
@@ -44,7 +44,7 @@ class Enemy(pygame.sprite.Sprite):
     # constructor
     def __init__(self):
         super().__init__()
-        self.image = pygame.image.load("labs/lab8/Enemy.png")
+        self.image = pygame.image.load("labs/lab8and9/racer/Enemy.png")
         self.rect = self.image.get_rect()
         self.rect.center = (random.randint(40, SCREEN_WIDTH - 40), 0)
     # move method
@@ -61,7 +61,7 @@ class Player(pygame.sprite.Sprite):
     # constructor
     def __init__(self):
         super().__init__()
-        self.image = pygame.image.load("labs/lab8/Player.png")
+        self.image = pygame.image.load("labs/lab8and9/racer/Player.png")
         self.rect = self.image.get_rect()
         self.rect.center = (160, 520)
     # move method
@@ -79,7 +79,7 @@ class Coin(pygame.sprite.Sprite):
     # constructor
     def __init__(self):
         super().__init__()
-        self.image = pygame.image.load("labs/lab9/free-icon-dollar-coin-9787486.png")
+        self.image = pygame.image.load("labs/lab8and9/racer/free-icon-dollar-coin-9787486.png")
         self.rect = self.image.get_rect()
         self.rect.center = (random.randint(40, SCREEN_WIDTH - 40), 0)
 
@@ -94,7 +94,7 @@ class Coin(pygame.sprite.Sprite):
 class BigCoin(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
-        self.image = pygame.image.load('labs/lab9/free-icon-dollar-coin-9787486-fotor-2024030511740.png')
+        self.image = pygame.image.load('labs/lab8and9/racer/free-icon-dollar-coin-9787486-fotor-2024030511740.png')
         self.rect = self.image.get_rect()
     def move(self):
         self.rect.move_ip(0, SPEED)
